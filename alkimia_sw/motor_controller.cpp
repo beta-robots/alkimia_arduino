@@ -42,6 +42,7 @@ void MotorController::stop()
     while (state_ != STATE_STOP) 
     {
         run(); 
+        delay(10); 
     }
 }
 
