@@ -1,4 +1,4 @@
-# alkimia_arduino
+# ALKIMIA ARDUINO SOFTWARE
 Arduino code for the Alkimia project.
 
 ### Get the code
