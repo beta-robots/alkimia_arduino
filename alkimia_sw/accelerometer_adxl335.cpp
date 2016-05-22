@@ -1,14 +1,14 @@
 #include "accelerometer_adxl335.h"
 
 AccelerometerADXL335::AccelerometerADXL335(int _pin_x, int _pin_y, int _pin_z)
-{
-    //Set AD converter reference to 2.56V
-    analogReference(INTERNAL2V56);
-    
+{    
     //set input pins
     pin_x_ = _pin_x;
     pin_y_ = _pin_y;
     pin_z_ = _pin_z;
+    
+    //Set AD converter reference to 2.56V
+    analogReference(INTERNAL2V56);    
 }
 
 
