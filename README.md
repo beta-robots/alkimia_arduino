@@ -2,7 +2,7 @@
 Arduino code for the Alkimia project.
 
 ### Get the code
-To get the code, please clone this repository as:
+To get the code, please clone this repository with:
 ```
 $ git clone https://github.com/beta-robots/alkimia_arduino.git
 ```
