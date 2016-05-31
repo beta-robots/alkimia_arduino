@@ -8,6 +8,10 @@ bool VERBOSE = true;
 int SERIAL_BAUD_RATE = 9600;
 int PIN_LED_HEART_BEAT = 13; 
 
+//Main Loop delay periods
+int MAIN_LOOP_PERIOD_STOP = 1000; //1Hz
+int MAIN_LOOP_PERIOD_RUN = 20; //50Hz
+
 //accelerometer wiring
 int PIN_ADC_ACCEL_X = 0; 
 int PIN_ADC_ACCEL_Y = 1; 
@@ -17,12 +21,12 @@ int PIN_ADC_ACCEL_Z = 2;
 int PIN_MOTOR_PWM = 3; 
 int PIN_MOTOR_DIRECTION = 4; 
 
-//Main Loop delay periods
-int MAIN_LOOP_PERIOD_STOP = 1000; //1Hz
-int MAIN_LOOP_PERIOD_RUN = 20; //50Hz
-
 //User buttons wiring
 int PIN_HUMAN_LOOP_BUTTON = 10; //TODO
+int PIN_POTENTIOMETER_DIVIDER = 15; 
+float POTENTIOMETER_DIVIDER_RD = 10000; //ohms
+float POTENTIOMETER_DIVIDER_VCC = 5; //Volts
+//float POTENTIOMETER_DIVIDER_VREF_ADC = 5; //Volts. Not yet used ...
 
 //micro switch wiring
 //TODO

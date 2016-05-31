@@ -5,10 +5,12 @@
 #include "constants.h"
 #include "accelerometer_adxl335.h"
 #include "motor_controller.h"
+#include "potentiometer_v_divider.h"
 
 //Main Objects
 AccelerometerADXL335 accelerometer(PIN_ADC_ACCEL_X,PIN_ADC_ACCEL_Y,PIN_ADC_ACCEL_Z); 
 MotorController motor(PIN_MOTOR_PWM, PIN_MOTOR_DIRECTION); 
+PotentiometerVdivider potent(PIN_POTENTIOMETER_DIVIDER, POTENTIOMETER_DIVIDER_RD, POTENTIOMETER_DIVIDER_VCC);
 
 //global variables
 bool new_input = false;
@@ -31,7 +33,7 @@ void setup()
 void loop() 
 {   
     //local variables
-    float angle_sensor, angle_user, angle_diff;
+    float angle_sensor, angle_user, angle_diff, r_p;
     int main_loop_delay = MAIN_LOOP_PERIOD_STOP; 
     boolean limit_switches = false; 
     boolean motion_allowed = false; 
@@ -42,6 +44,18 @@ void loop()
     led_value = !led_value; 
     digitalWrite(PIN_LED_HEART_BEAT, led_value);   
 
+    //get potentiometer input
+    r_p = potent.getResistance(); 
+    angle_user = r_p*90/10000; 
+
+    //DEBUGGING
+    Serial.print("r_p: ");    
+    Serial.println(r_p,DEC);
+    Serial.print("angle_user: ");    
+    Serial.println(angle_user,DEC);
+
+
+/*
     //check if new user input. If everyhting ok, this "if" will set motion_allowed flag
     if (new_input)
     {
@@ -133,7 +147,8 @@ void loop()
         //disallows motion 
         motion_allowed = false;        
     }
-    
+ */
+
     //relax 
     delay(main_loop_delay); 
 
