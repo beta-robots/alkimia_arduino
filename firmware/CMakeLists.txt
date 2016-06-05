@@ -12,6 +12,6 @@ add_definitions(-DUSB_CON)
 
 generate_arduino_firmware(single_fin
 	SRCS src/single_fin.cpp ${FIRMWARE_SRC_FILES} ${ROS_LIB_DIR}/time.cpp 
-	BOARD mega
+	BOARD mega2560
 	PORT /dev/ttyACM0
 )
