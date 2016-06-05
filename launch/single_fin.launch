@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<launch>
+	<!-- LAUNCH INTERFACE -->
+	<arg name="isBoardConnected" default="true" doc="Default to true, just if you want to launch without the board and not to have error messages"/>
+	<arg name="port" default="/dev/ttyACM0" doc="Select the port asigned to the board by the PC"/>
+	<arg name="baud" default="115200" doc="Select the baud rate desired for the application"/>
+
+	<!-- LAUNCH IMPLEMENTATION -->
+	<node name="single_fin_state" pkg="alkimia_arduino" type="single_fin_state_publisher" respawn="false" output="screen"/> 
+
+	<!-- launch the arduino USB connection if connected -->
+	<group if="$(arg isBoardConnected)">
+		<!-- rosparam command="load" file="$(find alkimia_arduino)/config/single_fin_params.yaml" / -->
+		<node name="arduino_node" pkg="rosserial_python" type="serial_node.py">
+			<param name="~port" value="$(arg port)" />
+	        	<param name="~baud" value="$(arg baud)" />
+		</node>
+	</group>
+</launch>
