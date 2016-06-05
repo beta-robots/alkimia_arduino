@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <name>alkimia_arduino</name>
+  <version>0.0.0</version>
+  <description>The alkimia_arduino package</description>
+
+  <maintainer email="andreu@beta-robots.com">Andreu Corominas</maintainer>
+  <maintainer email="carlos@beta-robots.com">Carlos Rosales</maintainer>
+
+  <license>ToDO</license>
+
+  <author email="andreu@beta-robots.com">Andreu Corominas</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>
