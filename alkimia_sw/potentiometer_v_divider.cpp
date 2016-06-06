@@ -25,7 +25,7 @@ float PotentiometerVdivider::getResistance()
     int adc_level; 
     float vd; 
     
-    //get voltage from adc
+    //get voltage from ADC (ADC ref 5V, ADC bits 10->1024 levels )
     adc_level = analogRead(pin_d_);
     vd = 5.0*adc_level/1023.0;
     

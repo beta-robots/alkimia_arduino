@@ -8,6 +8,12 @@ MotorController::MotorController(int _pin_pwm, int _pin_turn_direction)
     pin_turn_direction_ = _pin_turn_direction; 
     pwm_idx_ = 0;
     
+    //init pwm values
+    for (unsigned int ii=0; ii<PWM_NUM_STEPS; ii++)
+    {
+        pwm_ramp_[ii] = pwm_preset[ii]; //TODO with the proper curve
+    }
+    
     //sets pin_turn_direction_ as a digital output
     pinMode(pin_turn_direction_, OUTPUT);  
 }
@@ -42,7 +48,7 @@ void MotorController::stop()
     while (state_ != STATE_STOP) 
     {
         run(); 
-        delay(10); 
+        delay(CURVE_STEP_DURATION*1000);//in milliseconds 
     }
 }
 

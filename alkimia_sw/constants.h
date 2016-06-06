@@ -21,11 +21,12 @@ int PIN_ADC_ACCEL_Z = 2;
 int PIN_MOTOR_PWM = 3; 
 int PIN_MOTOR_DIRECTION = 4; 
 
-//User buttons wiring
+//User buttons wiring & constants
 int PIN_HUMAN_LOOP_BUTTON = 10; //TODO
 int PIN_POTENTIOMETER_DIVIDER = 15; 
-float POTENTIOMETER_DIVIDER_RD = 10000; //ohms
-float POTENTIOMETER_DIVIDER_VCC = 5; //Volts
+float POTENTIOMETER_DIVIDER_RP = 10000.0; //max resistance of the potentiometer [ohms]
+float POTENTIOMETER_DIVIDER_RD = 10000.0; //top resistance at the voltage divider [ohms]
+float POTENTIOMETER_DIVIDER_VCC = 5.0; //Volts
 //float POTENTIOMETER_DIVIDER_VREF_ADC = 5; //Volts. Not yet used ...
 
 //micro switch wiring

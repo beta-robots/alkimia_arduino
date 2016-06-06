@@ -33,7 +33,7 @@ void setup()
 void loop() 
 {   
     //local variables
-    float angle_sensor, angle_user, angle_diff, r_p;
+    float angle_sensor, angle_user, angle_diff;
     int main_loop_delay = MAIN_LOOP_PERIOD_STOP; 
     boolean limit_switches = false; 
     boolean motion_allowed = false; 
@@ -44,17 +44,6 @@ void loop()
     led_value = !led_value; 
     digitalWrite(PIN_LED_HEART_BEAT, led_value);   
 
-    //get potentiometer input
-    r_p = potent.getResistance(); 
-    angle_user = r_p*90/10000; 
-
-    //DEBUGGING
-    Serial.print("r_p: ");    
-    Serial.println(r_p,DEC);
-    Serial.print("angle_user: ");    
-    Serial.println(angle_user,DEC);
-
-
 /*
     //check if new user input. If everyhting ok, this "if" will set motion_allowed flag
     if (new_input)
@@ -62,10 +51,10 @@ void loop()
         //flag down 
         new_input = false; 
                 
-        //get target angle from user input (potentiometer) TODO
-        angle_user = 45.;//DEBUG
+        //get target angle from user input
+        angle_user = (90.0/POTENTIOMETER_DIVIDER_RP)*potent.getResistance(); //angle in degs
 
-        //get sensor angle about X
+        //get sensor angle about X axis
         angle_sensor = accelerometer.getAngleX(); 
         
         //angle diff
@@ -149,6 +138,16 @@ void loop()
     }
  */
 
+/******************* HEALTH CHECKING AREA ************************/
+
+    //check potentiometer voltage divider
+    checkPotentiometerVoltageDivider();
+    
+    //check motor 
+    checkMotor();
+    
+/******************* HEALTH CHECKING AREA ************************/
+
     //relax 
     delay(main_loop_delay); 
 
@@ -159,4 +158,25 @@ void userButton()
     new_input = true; //flag indicating new user entry
 }
 
+void checkPotentiometerVoltageDivider()
+{
+    //local vars
+    float r_p, angle; 
+    
+    //get potentiometer input
+    r_p = potent.getResistance(); 
+    angle = r_p*90/10000.; 
+
+    //DEBUGGING
+    Serial.print("r_p: ");    
+    Serial.println(r_p,DEC);
+    Serial.print("angle: ");    
+    Serial.println(angle,DEC);
+}
+
+void checkMotor()
+{
+    //TODO 
+    //implement several movements to check motor motion correctness
+}
 
