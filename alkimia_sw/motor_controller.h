@@ -44,19 +44,19 @@ class MotorController
         //destructor
         ~MotorController(); 
         
-        //gets state
+        //get state
         int getState(); 
         
         //set motor turn direction. _dir should be either HIGH or LOW
         void setTurnDirection(boolean _dir); 
         
-        //starts. No internal loop. Just set the state. 
+        //start. No internal loop. Just set the state. 
         void start(); 
         
-        //stops. Internal loop up to stop
+        //stop. Internal loop up to stop
         void stop(); 
         
-        //run. Carry on state
+        //run. Carry on and state transition
         void run(); 
         
 };

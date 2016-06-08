@@ -23,7 +23,7 @@ void setup()
   pinMode(PIN_LED_HEART_BEAT, OUTPUT);
   
   //attach interruption from user button
-  attachInterrupt(0, userButton, RISING);//TODO: decide whether rising or falling
+  attachInterrupt(0, userButtonCallback, RISING);//TODO: decide whether rising or falling
  
   //opens serial port, sets data rate to 9600 bps, Useful for debugging
   Serial.begin(SERIAL_BAUD_RATE);  
@@ -39,6 +39,7 @@ void loop()
     boolean motion_allowed = false; 
     boolean led_value = false;
     boolean human_loop_button = false; 
+    int debug_ii = 0; //useful for debugging
     
     // turn the heart beat LED on 
     led_value = !led_value; 
@@ -89,11 +90,12 @@ void loop()
     //check human_in_loop button
     if ( (human_loop_button) && (motion_allowed) )
     {
+        //get target angle from user input
+        //TODO:  Decide if just read the first user input or get it at each iteration
+        angle_user = (90.0/POTENTIOMETER_DIVIDER_RP)*potent.getResistance(); //angle in degs
+    
         //get sensor angle about X
         angle_sensor = accelerometer.getAngleX(); 
-        
-        //check micro switches //TODO:  Decide if just read the first user input or get it at each iteration
-        //angle_user = 
         
         //angle diff
         angle_diff = angle_sensor - angle_user; 
@@ -141,19 +143,22 @@ void loop()
 /******************* HEALTH CHECKING AREA ************************/
 
     //check potentiometer voltage divider
-    checkPotentiometerVoltageDivider();
+    //checkPotentiometerVoltageDivider();
     
     //check motor 
-    checkMotor();
+    checkMotor(debug_ii);
     
 /******************* HEALTH CHECKING AREA ************************/
 
     //relax 
     delay(main_loop_delay); 
+    
+    //increment debugging index
+    debug_ii ++;
 
 }
 
-void userButton()
+void userButtonCallback()
 {
     new_input = true; //flag indicating new user entry
 }
@@ -174,9 +179,21 @@ void checkPotentiometerVoltageDivider()
     Serial.println(angle,DEC);
 }
 
-void checkMotor()
+void checkMotor(int _ii)
 {
-    //TODO 
     //implement several movements to check motor motion correctness
+    if ( motor.getState() == STATE_STOP )
+    {
+        //sets turn direction
+        motor.setTurnDirection(boolean(_ii%2));
+        
+        //sets the motor to start state
+        motor.start();
+    }
+    
+    motor.run(); 
+    
+    if (_ii%21 == 0) motor.stop(); 
+    
 }
 

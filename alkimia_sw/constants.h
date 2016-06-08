@@ -19,7 +19,7 @@ int PIN_ADC_ACCEL_Z = 2;
 
 //Motor driver wiring
 int PIN_MOTOR_PWM = 3; 
-int PIN_MOTOR_DIRECTION = 4; 
+int PIN_MOTOR_DIRECTION = 2; 
 
 //User buttons wiring & constants
 int PIN_HUMAN_LOOP_BUTTON = 10; //TODO
