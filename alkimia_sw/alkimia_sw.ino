@@ -143,10 +143,13 @@ void loop()
 /******************* HEALTH CHECKING AREA ************************/
 
     //check potentiometer voltage divider
+    checkAccelerometer();
+
+    //check potentiometer voltage divider
     //checkPotentiometerVoltageDivider();
     
     //check motor 
-    checkMotor(debug_ii);
+    //checkMotor(debug_ii);
     
 /******************* HEALTH CHECKING AREA ************************/
 
@@ -161,6 +164,30 @@ void loop()
 void userButtonCallback()
 {
     new_input = true; //flag indicating new user entry
+}
+
+void checkAccelerometer()
+{
+    //local vars
+    float angle_x; 
+    float vy,vz;
+    
+    //get accelerometer voltages
+    vy = accelerometer.getVoltageY(); 
+    vz = accelerometer.getVoltageZ(); 
+    
+    //get accelerometer angle
+    angle_x = accelerometer.getAngleX(); 
+    
+
+    //DEBUGGING
+    Serial.print("accelerometer Vy: ");    
+    Serial.println(vy,DEC);
+    Serial.print("accelerometer Vz: ");    
+    Serial.println(vz,DEC);
+    Serial.print("accelerometer X angle: ");    
+    Serial.println(angle_x,DEC);
+    Serial.println();
 }
 
 void checkPotentiometerVoltageDivider()

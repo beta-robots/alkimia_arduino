@@ -8,7 +8,7 @@
 #define GRAVITY 9.81
 #define N_READINGS_DEFAULT 5 
 #define ADC_LEVELS 1023 
-#define ADC_VOLTAGE_REFERENCE 2.56 
+#define ADC_VOLTAGE_REFERENCE 5 
 #define V_SUPPLY 3.3 //supplied at 3.3V
 #define ZEROG_VOLTS_XYZ 1.5*(V_SUPPLY/3.0) //Bias level 1.5V at Vs=3V, ratiometric to Vs
 #define ZEROG_VOLTS_X 1.5*(V_SUPPLY/3.0) //Bias level 1.5V at Vs=3V, ratiometric to Vs
