@@ -15,16 +15,13 @@ It is set up to work with Arduino micro board.
 
 Build the firmware with standard `catkin_make`, or specifically with:
 
-`roscd && cd .. && catkin_make flexiforce_glove_firmware_flexiforce`
+`roscd && cd .. && catkin_make alkimia_arduino_firmware_single_fin`
 
-And upload it (for Arduino Micro)
- 1. Push the reset button, and the led start blinking
- 2. Type `catkin_make flexiforce_glove_firmware_flexiforce-upload` before the led stops blinking, otherwise repeat the operation
+And upload it (for Arduino Mega) with `catkin_make alkimia_arduino_firmware_single_fin-upload` (the upload mode is triggered by soft)
 
-Note: Check that the arduino board connects to `/dev/ttyACM0`, you can use `cd /dev && ls | grep ttyACM`. If not, you need to change the `firmware/CMakeLists.txt` file as well as `launch/flexiforce_glove.launch` and compile again to account for the new port. Provide privileges with `sudo chmod 777 /dev/ttyACM0`.
+Note: Check that the arduino board connects to `/dev/ttyACM0`, you can use `cd /dev && ls | grep ttyACM`. If not, you need to change the `firmware/CMakeLists.txt` file. Provide privileges with `sudo chmod 777 /dev/ttyACM0`.
 
-Tip: if you have `sudo` credentials on you PC, add your user to the `dialout` group to avoid sudoing by running:
-`sudo adduser YOUR_USER dialout`
+Tip: if you have `sudo` credentials on you PC, add your user to the `dialout` group to provide privileges to all ports by running: `sudo adduser YOUR_USER dialout`
 
 ## Electronics
 To Do
