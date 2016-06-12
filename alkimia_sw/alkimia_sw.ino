@@ -8,9 +8,9 @@
 #include "potentiometer_v_divider.h"
 
 //Main Objects
-AccelerometerADXL335 accelerometer(PIN_ADC_ACCEL_X,PIN_ADC_ACCEL_Y,PIN_ADC_ACCEL_Z); 
+AccelerometerADXL335 accelerometer(PIN_ADC_ACCEL_X,PIN_ADC_ACCEL_Y,PIN_ADC_ACCEL_Z, VREF_ADC); 
 MotorController motor(PIN_MOTOR_PWM, PIN_MOTOR_DIRECTION); 
-PotentiometerVdivider potent(PIN_POTENTIOMETER_DIVIDER, POTENTIOMETER_DIVIDER_RD, POTENTIOMETER_DIVIDER_VCC);
+PotentiometerVdivider potent(PIN_POTENTIOMETER_DIVIDER, POTENTIOMETER_DIVIDER_RD, POTENTIOMETER_DIVIDER_VCC, VREF_ADC);
 
 //global variables
 bool new_input = false;
@@ -19,14 +19,20 @@ bool new_input = false;
 //setup
 void setup() 
 {
-  //sets heart beat led pin as a digital output
-  pinMode(PIN_LED_HEART_BEAT, OUTPUT);
-  
-  //attach interruption from user button
-  attachInterrupt(0, userButtonCallback, RISING);//TODO: decide whether rising or falling
- 
-  //opens serial port, sets data rate to 9600 bps, Useful for debugging
-  Serial.begin(SERIAL_BAUD_RATE);  
+    //Sets analog reference
+    analogReference(VREF_ADC);
+        
+    //sets heart beat led pin as a digital output
+    pinMode(PIN_LED_HEART_BEAT, OUTPUT);
+    
+    //sets human loop push button pin as a digital input
+    pinMode(PIN_HUMAN_LOOP_BUTTON, INPUT);
+
+    //attach interruption from user button
+    attachInterrupt(0, userButtonCallback, RISING);//TODO: decide whether rising or falling
+    
+    //opens serial port, sets data rate to 9600 bps, Useful for debugging
+    Serial.begin(SERIAL_BAUD_RATE);  
 }
 
 //main loop
@@ -53,7 +59,7 @@ void loop()
         new_input = false; 
                 
         //get target angle from user input
-        angle_user = (90.0/POTENTIOMETER_DIVIDER_RP)*potent.getResistance(); //angle in degs
+        angle_user = 90.0*(potent.getResistance()/POTENTIOMETER_DIVIDER_RP); //angle in degs
 
         //get sensor angle about X axis
         angle_sensor = accelerometer.getAngleX(); 
@@ -92,7 +98,7 @@ void loop()
     {
         //get target angle from user input
         //TODO:  Decide if just read the first user input or get it at each iteration
-        angle_user = (90.0/POTENTIOMETER_DIVIDER_RP)*potent.getResistance(); //angle in degs
+        angle_user = 90.0*(potent.getResistance()/POTENTIOMETER_DIVIDER_RP); //angle in degs
     
         //get sensor angle about X
         angle_sensor = accelerometer.getAngleX(); 
@@ -142,11 +148,14 @@ void loop()
 
 /******************* HEALTH CHECKING AREA ************************/
 
-    //check potentiometer voltage divider
-    checkAccelerometer();
+    //check human loop push button
+    checkPushButton();
 
     //check potentiometer voltage divider
-    //checkPotentiometerVoltageDivider();
+    checkPotentiometerVoltageDivider();
+    
+    //check potentiometer voltage divider
+    checkAccelerometer();
     
     //check motor 
     //checkMotor(debug_ii);
@@ -166,6 +175,37 @@ void userButtonCallback()
     new_input = true; //flag indicating new user entry
 }
 
+void checkPushButton()
+{
+    //local vars
+    boolean button; 
+    
+    //get button state
+    button = digitalRead(PIN_HUMAN_LOOP_BUTTON); 
+    
+    //print
+    Serial.print("button: ");    
+    Serial.println(button,DEC);
+    Serial.println();
+}
+
+void checkPotentiometerVoltageDivider()
+{
+    //local vars
+    float r_p, angle; 
+    
+    //get potentiometer input
+    r_p = potent.getResistance(); 
+    angle = 90.0*(r_p/POTENTIOMETER_DIVIDER_RP); //angle in degs
+    
+    //print
+    Serial.print("r_p: ");    
+    Serial.println(r_p,DEC);
+    Serial.print("angle: ");    
+    Serial.println(angle,DEC);
+    Serial.println();    
+}
+
 void checkAccelerometer()
 {
     //local vars
@@ -180,7 +220,7 @@ void checkAccelerometer()
     angle_x = accelerometer.getAngleX(); 
     
 
-    //DEBUGGING
+    //print
     Serial.print("accelerometer Vy: ");    
     Serial.println(vy,DEC);
     Serial.print("accelerometer Vz: ");    
@@ -188,22 +228,6 @@ void checkAccelerometer()
     Serial.print("accelerometer X angle: ");    
     Serial.println(angle_x,DEC);
     Serial.println();
-}
-
-void checkPotentiometerVoltageDivider()
-{
-    //local vars
-    float r_p, angle; 
-    
-    //get potentiometer input
-    r_p = potent.getResistance(); 
-    angle = r_p*90/10000.; 
-
-    //DEBUGGING
-    Serial.print("r_p: ");    
-    Serial.println(r_p,DEC);
-    Serial.print("angle: ");    
-    Serial.println(angle,DEC);
 }
 
 void checkMotor(int _ii)

@@ -1,14 +1,23 @@
 #include "accelerometer_adxl335.h"
 
-AccelerometerADXL335::AccelerometerADXL335(int _pin_x, int _pin_y, int _pin_z)
+AccelerometerADXL335::AccelerometerADXL335(int _pin_x, int _pin_y, int _pin_z, int _ref_adc)
 {    
     //set input pins
     pin_x_ = _pin_x;
     pin_y_ = _pin_y;
     pin_z_ = _pin_z;
     
-    //Set AD converter reference to 2.56V
-    analogReference(INTERNAL2V56);    
+    //set ADC analog ref value in volts. Assumed analogReference call done outside
+    //analogReference(_ref_adc);
+    switch (_ref_adc)
+    {
+        case DEFAULT: v_ref_adc_ = 5.0; break;
+        case EXTERNAL: v_ref_adc_ = 5.0; break; //TODO
+        //case INTERNAL: v_ref_adc_ = 3.3; break; //TOREVIEW (not available on all boards!!
+        case INTERNAL1V1: v_ref_adc_ = 1.1; break;
+        case INTERNAL2V56: v_ref_adc_ = 2.56; break;
+        default: v_ref_adc_ = 5.0; break;   
+    }
 }
 
 
@@ -45,13 +54,13 @@ void AccelerometerADXL335::getVoltageXYZ(float & _vx, float & _vy, float & _vz, 
         adc_x += analogRead(pin_x_);
         adc_y += analogRead(pin_y_);
         adc_z += analogRead(pin_z_);
-        delay(5);
+        delay(TIME_BETWEEN_READINGS);
     }
     
     //convert to voltage
-    _vx = ( ADC_VOLTAGE_REFERENCE * ((float)adc_x/(float)ADC_LEVELS) ) / (float)_n_readings;
-    _vy = ( ADC_VOLTAGE_REFERENCE * ((float)adc_y/(float)ADC_LEVELS) ) / (float)_n_readings;  
-    _vz = ( ADC_VOLTAGE_REFERENCE * ((float)adc_z/(float)ADC_LEVELS) ) / (float)_n_readings;  
+    _vx = ( v_ref_adc_ * ((float)adc_x/(float)ADC_LEVELS) ) / (float)_n_readings;
+    _vy = ( v_ref_adc_ * ((float)adc_y/(float)ADC_LEVELS) ) / (float)_n_readings;  
+    _vz = ( v_ref_adc_ * ((float)adc_z/(float)ADC_LEVELS) ) / (float)_n_readings;  
 }
 
 float AccelerometerADXL335::voltage2acceleration(float _volts, float _bias)
@@ -97,10 +106,10 @@ float AccelerometerADXL335::getVoltage(int _pin, int _n_readings)
     for (int ii=0; ii<_n_readings; ii++)
     {
         adc_level += analogRead(_pin);
-        delay(5);
+        delay(TIME_BETWEEN_READINGS);
     }
     
     //convert to voltage
-    return  ( ADC_VOLTAGE_REFERENCE * ((float)adc_level/(float)ADC_LEVELS) ) / (float)_n_readings;  
+    return  ( v_ref_adc_ * ((float)adc_level/(float)ADC_LEVELS) ) / (float)_n_readings;  
 }
 

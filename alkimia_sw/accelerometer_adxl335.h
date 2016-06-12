@@ -7,8 +7,8 @@
 //constants
 #define GRAVITY 9.81
 #define N_READINGS_DEFAULT 5 
-#define ADC_LEVELS 1023 
-#define ADC_VOLTAGE_REFERENCE 5 
+#define TIME_BETWEEN_READINGS 3 //[ms]
+#define ADC_LEVELS 1023.0 
 #define V_SUPPLY 3.3 //supplied at 3.3V
 #define ZEROG_VOLTS_XYZ 1.5*(V_SUPPLY/3.0) //Bias level 1.5V at Vs=3V, ratiometric to Vs
 #define ZEROG_VOLTS_X 1.5*(V_SUPPLY/3.0) //Bias level 1.5V at Vs=3V, ratiometric to Vs
@@ -24,10 +24,11 @@ class AccelerometerADXL335
         int pin_x_; //where accel_x is attached
         int pin_y_; //where accel_y is attached
         int pin_z_; //where accel_y is attached
+        float v_ref_adc_; //Volts
         
     public: 
         //constructor. Allows only with xy mode (no z)
-        AccelerometerADXL335(int _pin_x, int _pin_y, int _pin_z); 
+        AccelerometerADXL335(int _pin_x, int _pin_y, int _pin_z, int _ref_adc); 
         
         //destructor
         ~AccelerometerADXL335(); 
