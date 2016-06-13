@@ -2,11 +2,11 @@
 
 //inputs Maxon RE40-148867 + Gearbox GP52C-223112
 wmax = 30*%pi/180;   
-te = 0.5; //start-up ramp duration
-dt = 0.01; //time step for control (and plotting)
+te = 1; //start-up ramp duration
+dt = 0.02; //time step for control (and plotting)
 kwv = 317; //motor rotation rate constant [rpm/V]
 gearbox = 936; //gearbox reduction
-vmin = 6; //[V] TBC
+vmin = 2; //[V] TBC
 vcc = 24; //[V]
 pwm_max_value = 255; //pwm levels at analog write
 
@@ -38,7 +38,7 @@ for ii=0:nn
     th_dot = [th_dot (a1 + 2*a2*tt + 3*a3*tt^2 + 4*a4*tt^3)];    
     th_dot2 = [th_dot2 (2*a2 + 6*a3*tt + 12*a4*tt^2)];        
 end
-voltage = vmin + (60 .*th_dot./(2*%pi))./(kwv/gearbox);
+voltage = vmin + (75 .*th_dot./(2*%pi))./(kwv/gearbox);
 pwm_ratio = voltage./vcc; 
 pwm_value = int(pwm_max_value.*pwm_ratio); 
 

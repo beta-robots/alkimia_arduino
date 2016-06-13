@@ -9,7 +9,7 @@ int PIN_LED_HEART_BEAT = 13;
 
 //Main Loop delay periods
 int MAIN_LOOP_PERIOD_STOP = 1000; //1Hz
-int MAIN_LOOP_PERIOD_RUN = 40; //25Hz
+int MAIN_LOOP_PERIOD_RUN = 50; //25Hz
 
 //Motor driver wiring
 int PIN_MOTOR_PWM = 9; 

@@ -32,7 +32,12 @@ void setup()
     //attachInterrupt(1, userButtonCallback, RISING);
     
     //opens serial port, sets data rate to 9600 bps, Useful for debugging
-    Serial.begin(SERIAL_BAUD_RATE);  
+    Serial.begin(SERIAL_BAUD_RATE);
+
+    int myEraser = 7;             // this is 111 in binary and is used as an eraser
+    TCCR2B &= ~myEraser;   // this operation (AND plus NOT),  set the three bits in TCCR2B to 0
+    int myPrescaler = 1;         // this could be a number in [1 , 6]. In this case, 3 corresponds in binary to 011.
+    TCCR2B |= myPrescaler;  //this operation (OR), replaces the last three bits in TCCR2B with our new value 011
 }
 
 //main loop
