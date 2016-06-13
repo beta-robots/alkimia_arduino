@@ -22,7 +22,7 @@
 // #define PWM_STEP_SIZE 2
 
 //preset pwm level values found using scilab/motor_maxon_trajectory.sce
-const int pwm_preset[PWM_NUM_STEPS] = {10,10,11,12,14,16,18,21,24,28,32,36,40,45,
+const int pwm_preset[PWM_NUM_STEPS] = {0,10,11,12,14,16,18,21,24,28,32,36,40,45,
                                         50,55,61,66,72,78,84,90,96,102,108,115,121,
                                         127,133,140,146,152,157,163,169,174,179,184,
                                         189,193,198,201,205,208,211,213,215,217,218,220};
