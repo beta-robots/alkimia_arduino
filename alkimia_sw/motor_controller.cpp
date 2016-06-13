@@ -52,7 +52,7 @@ void MotorController::stop()
     }
 }
 
-void MotorController::run()
+int MotorController::run()
 {
     int pwm_level; 
     
@@ -70,13 +70,13 @@ void MotorController::run()
             }
             else
             {
-                pwm_idx_ = PWM_NUM_STEPS; 
+                pwm_idx_ = PWM_NUM_STEPS-1; 
                 state_ = STATE_RUNNING; 
             }   
             break; 
         
         case STATE_RUNNING:  
-            pwm_idx_ = PWM_NUM_STEPS; 
+            pwm_idx_ = PWM_NUM_STEPS-1; 
             break;    
 
         case STATE_STOPPING:
@@ -99,5 +99,8 @@ void MotorController::run()
     
     //set pwm level to the pin where the motor is attached
     pwm_level = pwm_ramp_[pwm_idx_]; 
-    analogWrite(pin_pwm_, pwm_level);   
+    analogWrite(pin_pwm_, pwm_level);  
+   
+    //return pwm index
+    return pwm_idx_;
 }

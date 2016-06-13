@@ -11,8 +11,8 @@
 #define STATE_STOPPING 3
 
 //constants motor start-up and stop ramp
-#define CURVE_DURATION 0.5 //duration of start/stop curves [s]
-#define CURVE_STEP_DURATION 0.01 //[s]
+#define CURVE_DURATION 1 //duration of start/stop curves [s]
+#define CURVE_STEP_DURATION 0.02 //[s]
 #define PWM_NUM_STEPS (int)(CURVE_DURATION/CURVE_STEP_DURATION)
 // #define V_MIN 6 // minimum V to move the motor[V]
 // #define K_SPEED_VOLTS 317 //speed motor constant [rpm/V]
@@ -22,7 +22,7 @@
 // #define PWM_STEP_SIZE 2
 
 //preset pwm level values found using scilab/motor_maxon_trajectory.sce
-const int pwm_preset[PWM_NUM_STEPS] = {63,63,64,65,66,68,69,72,74,77,80,83,86,90,93,97,101,105, 
+const int pwm_preset[PWM_NUM_STEPS] = {0,63,64,65,66,68,69,72,74,77,80,83,86,90,93,97,101,105, 
                                    110,114,118,123,128,132,137,142,146,151,156,160,165,169,174,178,
                                    182,186,190,194,197,201,204,207,209,212,214,216,217,218,219,220};
 
@@ -57,7 +57,7 @@ class MotorController
         void stop(); 
         
         //run. Carry on and state transition
-        void run(); 
+        int run(); 
         
 };
 
