@@ -64,7 +64,7 @@ int MotorController::run()
             
         case STATE_STARTING:
             //check if in the ramp-up or already finished
-            if (pwm_idx_ < PWM_NUM_STEPS) 
+            if (pwm_idx_ < PWM_NUM_STEPS-1) 
             {
                 pwm_idx_ ++; 
             }
